@@ -19,6 +19,29 @@ static void _push_thin_point(Stroke *s) {
     }
 }
 
+static void _push_smooth_point(Stroke *s) {
+    unsigned short idx;
+    if (s->point_count == 0) {
+        idx = 1;
+        glm_vec2(s->points[0], s->s_points[0]);
+    }  else {
+        idx = s->point_count;
+    }
+
+    vec2 tmp0, tmp1;
+    glm_vec2_scale(s->s_points[idx-1], smoothing_factor, tmp0);
+    glm_vec2_scale(s->points[idx], 1.0f - smoothing_factor, tmp1);
+    glm_vec2_add(tmp0, tmp1, s->s_points[idx]);
+}
+
+void draw_points(Stroke *s, SDL_Renderer *r) {
+    SDL_RenderLines(r, (SDL_FPoint*)s->points, s->point_count);
+}
+
+void draw_smooth_points(Stroke *s, SDL_Renderer *r) {
+    SDL_RenderLines(r, (SDL_FPoint*)s->s_points, s->point_count);
+}
+
 // Note if the gpu api is used here 't_points' can be used as an index buffer
 // into the t_points array allowing drawing of the thin points without directly
 // comptuing the array
@@ -33,6 +56,7 @@ void draw_thin_points(Stroke *s, SDL_Renderer *r) {
 void push_point(Stroke *s, vec2 point) {
     glm_vec2_copy(point, s->points[s->point_count]);
 
+    _push_smooth_point(s);
     _push_thin_point(s);
 
     s->point_count++;

@@ -4,7 +4,7 @@
 #include <SDL3/SDL.h>
 #include <cglm/vec2.h>
 
-#define MAX_POINT_COUNT 4086
+#define MAX_POINT_COUNT 2048
 
 static float smoothing_factor = 0.90f;
 static float thinning_factor = 10.0f;
@@ -14,9 +14,13 @@ typedef struct {
     unsigned short thin_point_count;
     unsigned short t_points[MAX_POINT_COUNT];
     vec2 points[MAX_POINT_COUNT];
+    vec2 s_points[MAX_POINT_COUNT];
 } Stroke;
 
 void push_point(Stroke *s, vec2 point);
+
+void draw_points(Stroke *s, SDL_Renderer *r);
 void draw_thin_points(Stroke *s, SDL_Renderer *r);
+void draw_smooth_points(Stroke *s, SDL_Renderer *r);
 
 #endif /* __STROKE_H__ */
