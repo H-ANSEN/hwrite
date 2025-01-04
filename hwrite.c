@@ -62,6 +62,9 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, SDL_ALPHA_OPAQUE);
     draw_smooth_points(&s, renderer);
 
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    draw_direction_arrows(&s, renderer);
+
     SDL_RenderPresent(renderer);
     return SDL_APP_CONTINUE;
 }
