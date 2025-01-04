@@ -36,6 +36,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
             isMousePressed = false;
             s.point_count = 0;
             s.thin_point_count = 0;
+            s.corner_count = 0;
             break;
         case SDL_EVENT_MOUSE_MOTION:
             if (isMousePressed && s.point_count < MAX_POINT_COUNT) {
@@ -56,14 +57,17 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
     draw_thin_points(&s, renderer);
 
-    SDL_SetRenderDrawColor(renderer, 0, 255, 255, SDL_ALPHA_OPAQUE);
-    draw_points(&s, renderer);
+    //SDL_SetRenderDrawColor(renderer, 0, 255, 255, SDL_ALPHA_OPAQUE);
+    //draw_points(&s, renderer);
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 0, SDL_ALPHA_OPAQUE);
-    draw_smooth_points(&s, renderer);
+    //SDL_SetRenderDrawColor(renderer, 255, 255, 0, SDL_ALPHA_OPAQUE);
+    //draw_smooth_points(&s, renderer);
+
+    //SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    //draw_direction_arrows(&s, renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    draw_direction_arrows(&s, renderer);
+    draw_corner_markers(&s, renderer);
 
     SDL_RenderPresent(renderer);
     return SDL_APP_CONTINUE;
