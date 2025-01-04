@@ -11,7 +11,7 @@ static void _push_thin_point(Stroke *s) {
     } else {
         unsigned short idx = s->t_points[s->thin_point_count - 1];
         float dx = s->points[s->point_count][0] - s->points[idx][0];
-        float dy = s->points[s->point_count][0] - s->points[idx][0];
+        float dy = s->points[s->point_count][1] - s->points[idx][1];
         if (fabs(dx) >= thinning_factor || fabs(dy) >= thinning_factor) {
             s->t_points[s->thin_point_count] = s->point_count;
             s->thin_point_count++;
