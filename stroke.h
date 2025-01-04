@@ -4,7 +4,7 @@
 #include <SDL3/SDL.h>
 #include <cglm/vec2.h>
 
-#define MAX_POINT_COUNT 2048
+#define MAX_POINT_COUNT 1024
 #define DIRECTION_LEFT     0
 #define DIRECTION_RIGHT    1
 #define DIRECTION_UP       2
