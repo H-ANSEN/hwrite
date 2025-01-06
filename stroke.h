@@ -16,7 +16,7 @@
 
 static float smoothing_factor = 0.90f;
 static float thinning_factor = 10.0f;
-static float corner_threshold = 55.0f;
+static float corner_threshold = 50.0f;
 
 typedef struct {
     unsigned short point_count;

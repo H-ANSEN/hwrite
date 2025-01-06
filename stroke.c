@@ -9,6 +9,7 @@ static void _push_smooth_point(Stroke *s);
 static void _push_corner_point(Stroke *s);
 
 void stroke_clear(Stroke *s) {
+    if (!s) return;
     s->point_count = 0;
     s->corner_count = 0;
     s->thin_point_count = 0;
@@ -19,6 +20,8 @@ void stroke_clear(Stroke *s) {
 }
 
 void push_point(Stroke *s, vec2 point) {
+    if (s->point_count >= MAX_POINT_COUNT) return;
+
     glm_vec2_copy(point, s->points[s->point_count]);
 
     if (point[0] > s->max_x) { s->max_x = point[0]; }
@@ -197,8 +200,10 @@ static void _push_corner_point(Stroke *s) {
         return;
     }
 
+
     if (_same_direction(*p2, *p3, *p4) || 
-            _same_direction(*p3, *p4, s->points[s->t_points[s->thin_point_count]]))
+        (s->thin_point_count < MAX_POINT_COUNT &&
+            _same_direction(*p3, *p4, s->points[s->t_points[s->thin_point_count]])))
     {
         s->c_points[s->corner_count] = s->thin_point_count - 3;
         s->corner_count++;
