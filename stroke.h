@@ -29,6 +29,7 @@ typedef struct {
     Uint8 directions[MAX_POINT_COUNT];        /* cardinal direction at a point */
 } Stroke;
 
+void stroke_clear(Stroke *s);
 void push_point(Stroke *s, vec2 point);
 
 void draw_points(Stroke *s, SDL_Renderer *r);

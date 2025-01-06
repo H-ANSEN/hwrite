@@ -8,6 +8,12 @@ static void _push_thin_point(Stroke *s);
 static void _push_smooth_point(Stroke *s);
 static void _push_corner_point(Stroke *s);
 
+void stroke_clear(Stroke *s) {
+    s->point_count = 0;
+    s->corner_count = 0;
+    s->thin_point_count = 0;
+}
+
 void push_point(Stroke *s, vec2 point) {
     glm_vec2_copy(point, s->points[s->point_count]);
     _push_smooth_point(s);

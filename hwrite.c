@@ -34,9 +34,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
             break;
         case SDL_EVENT_MOUSE_BUTTON_UP:
             isMousePressed = false;
-            s.point_count = 0;
-            s.thin_point_count = 0;
-            s.corner_count = 0;
+            stroke_clear(&s);
             break;
         case SDL_EVENT_MOUSE_MOTION:
             if (isMousePressed && s.point_count < MAX_POINT_COUNT) {
