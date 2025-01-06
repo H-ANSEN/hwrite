@@ -22,6 +22,7 @@ typedef struct {
     unsigned short point_count;
     unsigned short corner_count;
     unsigned short thin_point_count;
+    unsigned short min_x, max_x, min_y, max_y;
     unsigned short t_points[MAX_POINT_COUNT]; /* indices to 'thinned points' */
     unsigned short c_points[MAX_POINT_COUNT]; /* indices to 'corner points'  */
     vec2 points[MAX_POINT_COUNT];             /* actual point data */
@@ -37,5 +38,6 @@ void draw_thin_points(Stroke *s, SDL_Renderer *r);
 void draw_smooth_points(Stroke *s, SDL_Renderer *r);
 void draw_direction_arrows(Stroke *s, SDL_Renderer *r);
 void draw_corner_markers(Stroke *s, SDL_Renderer *r);
+void draw_bounding_box(Stroke *s, SDL_Renderer *r);
 
 #endif /* __STROKE_H__ */

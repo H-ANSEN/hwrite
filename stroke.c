@@ -12,13 +12,24 @@ void stroke_clear(Stroke *s) {
     s->point_count = 0;
     s->corner_count = 0;
     s->thin_point_count = 0;
+    s->max_x = 0;
+    s->max_y = 0;
+    s->min_x = UINT16_MAX;
+    s->min_y = UINT16_MAX;
 }
 
 void push_point(Stroke *s, vec2 point) {
     glm_vec2_copy(point, s->points[s->point_count]);
+
+    if (point[0] > s->max_x) { s->max_x = point[0]; }
+    if (point[0] < s->min_x) { s->min_x = point[0]; }
+    if (point[1] > s->max_y) { s->max_y = point[1]; }
+    if (point[1] < s->min_y) { s->min_y = point[1]; }
+
     _push_smooth_point(s);
     _push_thin_point(s);
     _push_corner_point(s);
+
     s->point_count++;
 }
 
@@ -89,6 +100,16 @@ void draw_corner_markers(Stroke *s, SDL_Renderer *r) {
     }
 }
 
+void draw_bounding_box(Stroke *s, SDL_Renderer *r) {
+    unsigned short width = s->max_x - s->min_x;
+    unsigned short height = s->max_y - s->min_y;
+    SDL_RenderRect(r, &(SDL_FRect){
+            .x = s->min_x,
+            .y = s->min_y,
+            .w = width,
+            .h = height
+    });
+}
 
 // Direction points are computed on the 'thin points (t_points)' line, as such
 // directions are only pushed when a new thin point is added
