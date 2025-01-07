@@ -31,13 +31,13 @@ typedef struct {
 } Stroke;
 
 void stroke_clear(Stroke *s);
-void push_point(Stroke *s, vec2 point);
+void stroke_push_point(Stroke *s, vec2 point);
 
-void draw_points(Stroke *s, SDL_Renderer *r);
-void draw_thin_points(Stroke *s, SDL_Renderer *r);
-void draw_smooth_points(Stroke *s, SDL_Renderer *r);
-void draw_direction_arrows(Stroke *s, SDL_Renderer *r);
-void draw_corner_markers(Stroke *s, SDL_Renderer *r);
-void draw_bounding_box(Stroke *s, SDL_Renderer *r);
+void stroke_draw_points(Stroke *s, SDL_Renderer *r);
+void stroke_draw_thin_points(Stroke *s, SDL_Renderer *r);
+void stroke_draw_smooth_points(Stroke *s, SDL_Renderer *r);
+void stroke_draw_direction_arrows(Stroke *s, SDL_Renderer *r);
+void stroke_draw_corner_markers(Stroke *s, SDL_Renderer *r);
+void stroke_draw_bounding_box(Stroke *s, SDL_Renderer *r);
 
 #endif /* __STROKE_H__ */

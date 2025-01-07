@@ -53,7 +53,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
 
             stroke_clear(&s_prev);
             for (size_t i = 0; i < s.point_count; i++) {
-                push_point(&s_prev, s.points[i]);
+                stroke_push_point(&s_prev, s.points[i]);
             }
             stroke_clear(&s);
             break;
@@ -61,7 +61,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
             if (isMousePressed) {
                 vec2 mousePos;
                 SDL_GetMouseState(&mousePos[0], &mousePos[1]);
-                push_point(&s, mousePos);
+                stroke_push_point(&s, mousePos);
             }
             break;
     }
@@ -77,7 +77,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     //draw_thin_points(&s, renderer);
 
     SDL_SetRenderDrawColor(renderer, 0, 255, 255, SDL_ALPHA_OPAQUE);
-    draw_points(&s, renderer);
+    stroke_draw_points(&s, renderer);
 
     //SDL_SetRenderDrawColor(renderer, 255, 255, 0, SDL_ALPHA_OPAQUE);
     //draw_smooth_points(&s, renderer);

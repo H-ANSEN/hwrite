@@ -1,3 +1,8 @@
+//
+// See Ramer-Douglas-Peucker Algorithm for another/possibly better thinning
+// algorithm that could be used
+//
+
 #include <SDL3/SDL.h>
 #include <math.h>
 #include <cglm/vec2.h>
@@ -19,7 +24,7 @@ void stroke_clear(Stroke *s) {
     s->min_y = UINT16_MAX;
 }
 
-void push_point(Stroke *s, vec2 point) {
+void stroke_push_point(Stroke *s, vec2 point) {
     if (s->point_count >= MAX_POINT_COUNT) return;
 
     glm_vec2_copy(point, s->points[s->point_count]);
@@ -36,18 +41,18 @@ void push_point(Stroke *s, vec2 point) {
     s->point_count++;
 }
 
-void draw_points(Stroke *s, SDL_Renderer *r) {
+void stroke_draw_points(Stroke *s, SDL_Renderer *r) {
     SDL_RenderLines(r, (SDL_FPoint*)s->points, s->point_count);
 }
 
-void draw_smooth_points(Stroke *s, SDL_Renderer *r) {
+void stroke_draw_smooth_points(Stroke *s, SDL_Renderer *r) {
     SDL_RenderLines(r, (SDL_FPoint*)s->s_points, s->point_count);
 }
 
 // Note if the gpu api is used here 't_points' can be used as an index buffer
 // into the t_points array allowing drawing of the thin points without directly
 // comptuing the array
-void draw_thin_points(Stroke *s, SDL_Renderer *r) {
+void stroke_draw_thin_points(Stroke *s, SDL_Renderer *r) {
     for (unsigned short i = 1; i < s->thin_point_count; i++) {
         vec2 *a = &s->points[s->t_points[i-1]];
         vec2 *b = &s->points[s->t_points[i]];
@@ -55,7 +60,7 @@ void draw_thin_points(Stroke *s, SDL_Renderer *r) {
     }
 }
 
-void draw_direction_arrows(Stroke *s, SDL_Renderer *r) {
+void stroke_draw_direction_arrows(Stroke *s, SDL_Renderer *r) {
     float size = 10;
     float x1, y1, x2, y2, x3, y3;
 
@@ -91,7 +96,7 @@ void draw_direction_arrows(Stroke *s, SDL_Renderer *r) {
     }
 }
 
-void draw_corner_markers(Stroke *s, SDL_Renderer *r) {
+void stroke_draw_corner_markers(Stroke *s, SDL_Renderer *r) {
     for (unsigned short i = 0; i < s->corner_count; i++) {
         unsigned short idx = s->c_points[i];
         SDL_RenderRect(r, &(SDL_FRect){
@@ -103,7 +108,7 @@ void draw_corner_markers(Stroke *s, SDL_Renderer *r) {
     }
 }
 
-void draw_bounding_box(Stroke *s, SDL_Renderer *r) {
+void stroke_draw_bounding_box(Stroke *s, SDL_Renderer *r) {
     unsigned short width = s->max_x - s->min_x;
     unsigned short height = s->max_y - s->min_y;
     SDL_RenderRect(r, &(SDL_FRect){
